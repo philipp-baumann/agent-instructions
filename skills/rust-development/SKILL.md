@@ -61,3 +61,5 @@ cargo check --workspace --all-targets --all-features
 ```
 
 Run repository tests and pattern checks required by its local instructions.
+Leave one core free for the host when building or testing, because cargo and the test harnesses default to every core and a shared machine stops responding.
+Export `CARGO_BUILD_JOBS=-1`, which cargo reads as the core count minus one, and pass `--test-threads=$(($(nproc) - 1))` to libtest and nextest, since libtest rejects a negative count.
